@@ -10,11 +10,6 @@ pool:
   name: 'agent1'
 
 steps:
-- script: |
-    echo "Installing Maven..."
-    sudo apt-get update
-    sudo apt-get install -y maven
-  displayName: 'Install Maven'
 
 - task: JavaToolInstaller@0
   inputs:
