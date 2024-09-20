@@ -1,22 +1,21 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
 trigger:
 - main
 
 pool:
   name: 'agent1'
 
+variables:
+  JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+  MAVEN_HOME: /opt/maven
+  PATH: $(JAVA_HOME)/bin:$(MAVEN_HOME)/bin:$(PATH)
+
 steps:
-
-- task: JavaToolInstaller@0
-  inputs:
-    versionSpec: '11.0.24'
-    jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'PreInstalled'
-
+- script: |
+    echo "Java Home: $JAVA_HOME"
+    echo "Maven Home: $MAVEN_HOME"
+    java -version
+    mvn -version
+  displayName: 'Verify Java and Maven'
 
 - task: Maven@4
   inputs:
@@ -25,15 +24,11 @@ steps:
     options: '-Xmx1024m'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    mavenVersionOption: 'Default'
+    javaHomeOption: 'Path'
+    jdkDirectory: '$(JAVA_HOME)'
+    mavenVersionOption: 'Path'
+    mavenDirectory: '$(MAVEN_HOME)'
+    mavenSetM2Home: false
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
