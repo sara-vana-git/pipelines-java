@@ -35,3 +35,9 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '/home/azureuser/_work'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
