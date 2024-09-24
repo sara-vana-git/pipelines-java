@@ -7,17 +7,18 @@ pool:
 variables:
   JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
   MAVEN_HOME: /opt/maven
-  PATH: /usr/bin:$(JAVA_HOME)/bin:$(MAVEN_HOME)/bin:$(PATH)
-
+  PATH: /usr/bin:/usr/lib/jvm/java-11-openjdk-amd64/bin:/opt/maven/bin
 
 steps:
-- script: |
-    echo "Java Home: $JAVA_HOME"
-    echo "Maven Home: $MAVEN_HOME"
-    java -version
-    mvn -version
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "Java Home: $JAVA_HOME"
+      echo "Maven Home: $MAVEN_HOME"
+      java -version
+      mvn -version
   displayName: 'Verify Java and Maven'
-
 
 - task: Maven@4
   inputs:
