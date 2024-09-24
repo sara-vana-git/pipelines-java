@@ -8,6 +8,7 @@ variables:
   JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
   MAVEN_HOME: /opt/maven
   PATH: /usr/bin:/usr/lib/jvm/java-11-openjdk-amd64/bin:/opt/maven/bin
+  MAVEN_OPTS: '-Xmx1024m'
 
 steps:
 - task: Bash@3
@@ -24,7 +25,6 @@ steps:
   inputs:
     mavenPomFile: 'pom.xml'
     goals: 'clean install'
-    options: '-Xmx1024m'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     javaHomeOption: 'Path'
